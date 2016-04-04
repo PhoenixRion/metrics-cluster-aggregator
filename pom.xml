@@ -200,8 +200,8 @@
         <configuration>
           <programs>
             <program>
-              <id>mad</id>
-              <mainClass>com.arpnetworking.metrics.mad.Main</mainClass>
+              <id>cluster-aggregator</id>
+              <mainClass>com.arpnetworking.metrics.clusteraggregator.Main</mainClass>
             </program>
           </programs>
         </configuration>
