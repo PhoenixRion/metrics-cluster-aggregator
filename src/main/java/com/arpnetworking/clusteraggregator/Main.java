@@ -17,9 +17,6 @@ package com.arpnetworking.clusteraggregator;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.http.javadsl.IncomingConnection;
-import akka.http.javadsl.ServerBinding;
-import akka.stream.javadsl.Source;
 import ch.qos.logback.classic.LoggerContext;
 import com.arpnetworking.clusteraggregator.configuration.ClusterAggregatorConfiguration;
 import com.arpnetworking.configuration.jackson.DynamicConfiguration;
@@ -30,6 +27,8 @@ import com.arpnetworking.utility.Configurator;
 import com.arpnetworking.utility.Database;
 import com.arpnetworking.utility.Launchable;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Optional;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -38,11 +37,11 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.Await;
-import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,21 +50,18 @@ import java.util.concurrent.TimeUnit;
  * @author Brandon Arp (barp at groupon dot com)
  */
 public final class Main implements Launchable {
-
     /**
      * Entry point.
      *
      * @param args command line arguments
      */
     public static void main(final String[] args) {
-        LOGGER.info()
-                .setMessage("Launching cluster-aggregator")
-                .log();
-
         Thread.setDefaultUncaughtExceptionHandler(
                 (thread, throwable) -> {
-                    System.err.println("Unhandled exception! exception: " + throwable.toString());
-                    throwable.printStackTrace(System.err);
+                    LOGGER.error()
+                            .setMessage("Unhandled exception!")
+                            .setThrowable(throwable)
+                            .log();
                 });
 
         Thread.currentThread().setUncaughtExceptionHandler(
@@ -77,6 +73,12 @@ public final class Main implements Launchable {
                 }
         );
 
+        LOGGER.info()
+                .setMessage("Launching cluster-aggregator")
+                .log();
+
+        Runtime.getRuntime().addShutdownHook(SHUTDOWN_THREAD);
+
         if (args.length != 1) {
             throw new RuntimeException("No configuration file specified");
         }
@@ -86,32 +88,37 @@ public final class Main implements Launchable {
                 .addData("file", args[0])
                 .log();
 
-        final File configurationFile = new File(args[0]);
-        final Configurator<Main, ClusterAggregatorConfiguration> configurator =
-                new Configurator<>(Main::new, ClusterAggregatorConfiguration.class);
-        final ObjectMapper objectMapper = ClusterAggregatorConfiguration.createObjectMapper();
-        final DynamicConfiguration configuration = new DynamicConfiguration.Builder()
-                .setObjectMapper(objectMapper)
-                .addSourceBuilder(
-                        new JsonNodeFileSource.Builder().setObjectMapper(objectMapper)
-                                .setFile(configurationFile))
-                .addTrigger(new FileTrigger.Builder().setFile(configurationFile).build())
-                .addListener(configurator)
-                .build();
+        Optional<DynamicConfiguration> configuration = Optional.absent();
+        Optional<Configurator<Main, ClusterAggregatorConfiguration>> configurator = Optional.absent();
+        try {
+            final File configurationFile = new File(args[0]);
+            configurator = Optional.of(new Configurator<>(Main::new, ClusterAggregatorConfiguration.class));
+            final ObjectMapper objectMapper = ClusterAggregatorConfiguration.createObjectMapper();
+            configuration = Optional.of(new DynamicConfiguration.Builder()
+                    .setObjectMapper(objectMapper)
+                    .addSourceBuilder(
+                            new JsonNodeFileSource.Builder().setObjectMapper(objectMapper)
+                                    .setFile(configurationFile))
+                    .addTrigger(new FileTrigger.Builder().setFile(configurationFile).build())
+                    .addListener(configurator.get())
+                    .build());
 
-        configuration.launch();
+            configuration.get().launch();
 
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(
-                        () -> {
-                            configuration.shutdown();
-                            configurator.shutdown();
-                            LOGGER.info()
-                                    .setMessage("Stopping cluster-aggregator")
-                                    .log();
-                            final LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-                            context.stop();
-                        }));
+            // Wait for application shutdown
+            SHUTDOWN_SEMAPHORE.acquire();
+        } catch (final InterruptedException e) {
+            throw Throwables.propagate(e);
+        } finally {
+            if (configurator.isPresent()) {
+                configurator.get().shutdown();
+            }
+            if (configuration.isPresent()) {
+                configuration.get().shutdown();
+            }
+            // Notify the shutdown that we're done
+            SHUTDOWN_SEMAPHORE.release();
+        }
     }
 
     /**
@@ -245,6 +252,41 @@ public final class Main implements Launchable {
     private static final Logger LOGGER = com.arpnetworking.steno.LoggerFactory.getLogger(Main.class);
     private static final Duration SHUTDOWN_TIMEOUT = Duration.create(3, TimeUnit.MINUTES);
     private static final SourceTypeLiteral SOURCE_TYPE_LITERAL = new SourceTypeLiteral();
+    private static final Semaphore SHUTDOWN_SEMAPHORE = new Semaphore(0);
+    private static final Thread SHUTDOWN_THREAD = new ShutdownThread();
+
+    private static final class ShutdownThread extends Thread {
+        private ShutdownThread() {
+            super("ClusterAggregatorShutdownHook");
+        }
+
+        @Override
+        public void run() {
+            LOGGER.info()
+                    .setMessage("Stopping cluster-aggregator")
+                    .log();
+
+            // release the main thread waiting for shutdown signal
+            SHUTDOWN_SEMAPHORE.release();
+
+            try {
+                // wait for it to signal that it has completed shutdown
+                if (!SHUTDOWN_SEMAPHORE.tryAcquire(SHUTDOWN_TIMEOUT.toSeconds(), TimeUnit.SECONDS)) {
+                    LOGGER.warn()
+                            .setMessage("Shutdown did not complete in a timely manner")
+                            .log();
+                }
+            } catch (final InterruptedException e) {
+                throw Throwables.propagate(e);
+            } finally {
+                LOGGER.info()
+                        .setMessage("Shutdown complete")
+                        .log();
+                final LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+                context.stop();
+            }
+        }
+    }
 
     private static class SourceTypeLiteral extends TypeLiteral<java.util.concurrent.CompletionStage<akka.http.javadsl.ServerBinding>> {}
 }
