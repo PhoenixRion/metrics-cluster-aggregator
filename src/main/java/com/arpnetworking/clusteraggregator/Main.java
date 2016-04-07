@@ -246,5 +246,5 @@ public final class Main implements Launchable {
     private static final Duration SHUTDOWN_TIMEOUT = Duration.create(3, TimeUnit.MINUTES);
     private static final SourceTypeLiteral SOURCE_TYPE_LITERAL = new SourceTypeLiteral();
 
-    private static class SourceTypeLiteral extends TypeLiteral<Source<IncomingConnection, Future<ServerBinding>>> {}
+    private static class SourceTypeLiteral extends TypeLiteral<java.util.concurrent.CompletionStage<akka.http.javadsl.ServerBinding>> {}
 }
