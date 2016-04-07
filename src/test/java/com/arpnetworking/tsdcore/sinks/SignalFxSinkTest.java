@@ -99,7 +99,7 @@ public class SignalFxSinkTest extends BaseActorTest {
                 .build();
         sink.recordAggregateData(periodicData);
 
-        Thread.sleep(5000);
+        Thread.sleep(1000);
 
         _wireMock.verifyThat(WireMock.postRequestedFor(WireMock.urlEqualTo("/v2/datapoint?orgid=MyOrganizationId"))
                 .withHeader("Content-Type", WireMock.equalTo("application/x-protobuf"))
