@@ -142,21 +142,21 @@ public class PeriodMetrics {
     private BloomFilter<CharSequence> createServicesBF() {
         return BloomFilter.create(
                 Funnels.stringFunnel(Charsets.UTF_8),
-                100_000,
-                0.0001);
+                10_000,
+                0.001);
     }
 
     private BloomFilter<CharSequence> createMetricsBF() {
         return BloomFilter.create(
                 Funnels.stringFunnel(Charsets.UTF_8),
-                10_000_000,
+                1_000_000,
                 0.001);
     }
 
     private BloomFilter<CharSequence> createStatisticsBF() {
         return BloomFilter.create(
                 Funnels.stringFunnel(Charsets.UTF_8),
-                100_000_000,
+                10_000_000,
                 0.005);
     }
 
