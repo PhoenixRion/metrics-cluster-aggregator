@@ -22,7 +22,11 @@ Usage
 
 ### Installation
 
+#### Manual
 The artifacts from the build are in *metrics-cluster-aggregator/target/appassembler* and should be copied to an appropriate directory on your application host(s).
+
+#### Docker
+If you use Docker, we publish a base docker image that makes it easy for you to layer configuration on top of.  Create a Docker image based on the image arpnetworking/cluster-aggregator.  Configuration files are typically located at /opt/cluster-aggregator/config/.  In addition, you can specify CONFIG_FILE (defaults to /opt/cluster-aggregator/config/config.json), PARAMS (defaults to $CONFIG_FILE), LOGGING_CONFIG (defaults to "-Dlogback.configurationFile=/opt/cluster-aggregator/config/logback.xml"), and JAVA_OPTS (defaults to $LOGGING_CONFIG) environment variables to control startup.
 
 ### Execution
 
