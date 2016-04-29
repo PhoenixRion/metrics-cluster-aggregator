@@ -13,6 +13,7 @@
 # limitations under the License.
 
 FROM java:8u77-jre-alpine
+RUN apk -U add libstdc++
 MAINTAINER arpnetworking
 EXPOSE 7065
 EXPOSE 7066
@@ -24,5 +25,5 @@ ENV JAVA_OPTS $LOGGING_CONFIG
 RUN mkdir -p /opt/cluster-aggregator/logs
 RUN mkdir -p /opt/cluster-aggregator/data
 ADD config /opt/cluster-aggregator/config
-ADD target/appassembler /opt/cluster-aggregator
 CMD /opt/cluster-aggregator/bin/cluster-aggregator $PARAMS
+ADD target/appassembler /opt/cluster-aggregator
