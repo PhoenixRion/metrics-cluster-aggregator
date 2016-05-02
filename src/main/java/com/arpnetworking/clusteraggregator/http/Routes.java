@@ -45,8 +45,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import scala.compat.java8.FutureConverters;
 import scala.concurrent.Future;
@@ -131,11 +129,6 @@ public final class Routes implements Function<HttpRequest, CompletionStage<HttpR
                                                                 + (isHealthy ? HEALTHY_STATE : UNHEALTHY_STATE)
                                                                 + "\"}")));
             } else if (_statusPath.equals(request.getUri().path())) {
-                return CompletableFuture.completedFuture(
-                        HttpResponse.create()
-                                .withStatus(StatusCodes.OK)
-                                .withEntity(JSON_CONTENT_TYPE, ByteString.fromString(STATUS_JSON)));
-            } else if (STATUS_PATH.equals(request.getUri().path())) {
                 return ask("/user/status", new Status.StatusRequest(), (StatusResponse) null)
                         .thenApply(
                                 status -> {
@@ -197,28 +190,10 @@ public final class Routes implements Function<HttpRequest, CompletionStage<HttpR
             CacheDirectives.MUST_REVALIDATE);
     private static final String UNHEALTHY_STATE = "UNHEALTHY";
     private static final String HEALTHY_STATE = "HEALTHY";
-    private static final String STATUS_JSON;
 
     private static final ContentType JSON_CONTENT_TYPE = ContentTypes.APPLICATION_JSON;
 
     private static final long serialVersionUID = -1573473630801540757L;
-
-    static {
-        String statusJson = "{}";
-        try {
-            statusJson = Resources.toString(Resources.getResource("status.json"), Charsets.UTF_8);
-            // CHECKSTYLE.OFF: IllegalCatch - Prevent program shutdown
-        } catch (final Exception e) {
-            // CHECKSTYLE.ON: IllegalCatch
-            LOGGER.error()
-                    .setMessage("Resource load failure")
-                    .addData("resource", "status.json")
-                    .setThrowable(e)
-                    .log();
-        }
-        STATUS_JSON = statusJson;
-
-    }
 
     private static class MemberSerializer extends JsonSerializer<Member> {
         @Override
