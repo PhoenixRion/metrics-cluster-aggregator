@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Publishes aggregations to Wavefront via Wavefront's proxy used as a library. This class is thread safe.
@@ -322,14 +323,14 @@ public final class WavefrontSink extends BaseSink {
     }
 
     private static final class AgentFactory {
-        private static final Map<String, WavefrontAgent> AGENT_MAP = Maps.newHashMap();
+        private static final ConcurrentHashMap<String, WavefrontAgent> AGENT_MAP = new ConcurrentHashMap<>(2);
 
         public static synchronized WavefrontAgent getInstance(final String token, final List<String> arguments) {
-            if (!AGENT_MAP.containsKey(token)) {
+            return AGENT_MAP.computeIfAbsent(token, key -> {
                 final WavefrontAgent agent = new WavefrontAgent();
                 final List<String> fullArgs = new ArrayList<>();
                 fullArgs.add("-t");
-                fullArgs.add(token);
+                fullArgs.add(key);
                 fullArgs.addAll(arguments);
                 try {
                     agent.start(fullArgs.toArray(new String[fullArgs.size()]));
@@ -339,9 +340,8 @@ public final class WavefrontSink extends BaseSink {
                             .setThrowable(e)
                             .log();
                 }
-                AGENT_MAP.put(token, agent);
-            }
-            return AGENT_MAP.get(token);
+                return agent;
+            });
         }
     }
 
