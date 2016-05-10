@@ -46,7 +46,7 @@ start() {
         warning "$name: already running"
     else
         cd "$dir"
-        su "$user" -s /bin/sh -c "nice $exec $config >> $log_dir/system.out 2>&1 & echo \$! > $pid_file"
+        su "$user" -s /bin/sh -c "$exec $config >> $log_dir/system.out 2>&1 & echo \$! > $pid_file"
         if ! is_running; then
             failure "$prog did not start"
             retval=1
