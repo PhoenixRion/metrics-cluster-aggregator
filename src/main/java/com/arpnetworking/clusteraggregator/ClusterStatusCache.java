@@ -118,6 +118,7 @@ public class ClusterStatusCache extends UntypedActor {
                 } else {
                     metrics.setGauge("akka/is_leader", 0);
                 }
+                metrics.close();
             } else if (message instanceof GetRequest) {
                 sendResponse(getSender());
             } else if (message instanceof ParallelLeastShardAllocationStrategy.RebalanceNotification) {
