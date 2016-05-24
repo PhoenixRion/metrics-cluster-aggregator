@@ -211,9 +211,10 @@ public class GuiceModule extends AbstractModule {
     private ActorRef provideStatusCache(
             final ActorSystem system,
             @Named("bookkeeper-proxy") final ActorRef bookkeeperProxy,
-            @Named("periodic-statistics") final ActorRef periodicStats) {
+            @Named("periodic-statistics") final ActorRef periodicStats,
+            final MetricsFactory metricsFactory) {
         final Cluster cluster = Cluster.get(system);
-        final ActorRef clusterStatusCache = system.actorOf(ClusterStatusCache.props(cluster), "cluster-status");
+        final ActorRef clusterStatusCache = system.actorOf(ClusterStatusCache.props(cluster, metricsFactory), "cluster-status");
         return system.actorOf(Status.props(bookkeeperProxy, cluster, clusterStatusCache, periodicStats), "status");
     }
 

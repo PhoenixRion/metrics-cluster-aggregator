@@ -24,6 +24,8 @@ import akka.actor.UntypedActor;
 import akka.cluster.Cluster;
 import akka.cluster.ClusterEvent;
 import com.arpnetworking.clusteraggregator.models.ShardAllocation;
+import com.arpnetworking.metrics.Metrics;
+import com.arpnetworking.metrics.MetricsFactory;
 import com.arpnetworking.utility.ParallelLeastShardAllocationStrategy;
 import com.google.common.base.Optional;
 import com.google.common.collect.ArrayListMultimap;
@@ -48,23 +50,27 @@ import javax.annotation.Nullable;
  * @author Brandon Arp (barp at groupon dot com)
  */
 public class ClusterStatusCache extends UntypedActor {
+
     /**
      * Creates a {@link akka.actor.Props} for use in Akka.
      *
      * @param cluster The cluster to reference.
+     * @param metricsFactory A <code>MetricsFactory</code> to use for metrics creation.
      * @return A new {@link akka.actor.Props}
      */
-    public static Props props(final Cluster cluster) {
-        return Props.create(ClusterStatusCache.class, cluster);
+    public static Props props(final Cluster cluster, final MetricsFactory metricsFactory) {
+        return Props.create(ClusterStatusCache.class, cluster, metricsFactory);
     }
 
     /**
      * Public constructor.
      *
      * @param cluster {@link akka.cluster.Cluster} whose state is cached
+     * @param metricsFactory A <code>MetricsFactory</code> to use for metrics creation.
      */
-    public ClusterStatusCache(final Cluster cluster) {
+    public ClusterStatusCache(final Cluster cluster, final MetricsFactory metricsFactory) {
         _cluster = cluster;
+        _metricsFactory = metricsFactory;
     }
 
     /**
@@ -102,7 +108,17 @@ public class ClusterStatusCache extends UntypedActor {
         if (!getSender().equals(getSelf())) {
             // Public messages
             if (message instanceof ClusterEvent.CurrentClusterState) {
-                _clusterState = Optional.of((ClusterEvent.CurrentClusterState) message);
+                final ClusterEvent.CurrentClusterState clusterState = (ClusterEvent.CurrentClusterState) message;
+                _clusterState = Optional.of(clusterState);
+
+                try (final Metrics metrics = _metricsFactory.create()) {
+                    metrics.setGauge("akka/members_count", clusterState.members().size());
+                    if (_cluster.selfAddress().equals(clusterState.getLeader())) {
+                        metrics.setGauge("akka/is_leader", 1);
+                    } else {
+                        metrics.setGauge("akka/is_leader", 0);
+                    }
+                }
             } else if (message instanceof GetRequest) {
                 sendResponse(getSender());
             } else if (message instanceof ParallelLeastShardAllocationStrategy.RebalanceNotification) {
@@ -137,6 +153,7 @@ public class ClusterStatusCache extends UntypedActor {
     }
 
     private final Cluster _cluster;
+    private final MetricsFactory _metricsFactory;
     private Optional<ClusterEvent.CurrentClusterState> _clusterState = Optional.absent();
     @Nullable
     private Cancellable _pollTimer;
