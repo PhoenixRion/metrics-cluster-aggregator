@@ -111,14 +111,14 @@ public class ClusterStatusCache extends UntypedActor {
                 final ClusterEvent.CurrentClusterState clusterState = (ClusterEvent.CurrentClusterState) message;
                 _clusterState = Optional.of(clusterState);
 
-                final Metrics metrics = _metricsFactory.create();
-                metrics.setGauge("akka/members_count", clusterState.members().size());
-                if (_cluster.selfAddress().equals(clusterState.getLeader())) {
-                    metrics.setGauge("akka/is_leader", 1);
-                } else {
-                    metrics.setGauge("akka/is_leader", 0);
+                try (final Metrics metrics = _metricsFactory.create()) {
+                    metrics.setGauge("akka/members_count", clusterState.members().size());
+                    if (_cluster.selfAddress().equals(clusterState.getLeader())) {
+                        metrics.setGauge("akka/is_leader", 1);
+                    } else {
+                        metrics.setGauge("akka/is_leader", 0);
+                    }
                 }
-                metrics.close();
             } else if (message instanceof GetRequest) {
                 sendResponse(getSender());
             } else if (message instanceof ParallelLeastShardAllocationStrategy.RebalanceNotification) {
