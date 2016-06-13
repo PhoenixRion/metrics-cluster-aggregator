@@ -25,7 +25,7 @@ import java.util.Optional;
 /**
  * Sink extracts and adds dimension for "domain" based on hostname.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class DomainInjectingSink extends BaseSink {
 
@@ -86,7 +86,7 @@ public final class DomainInjectingSink extends BaseSink {
     /**
      * Implementation of builder pattern for <code>DomainInjectingSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends BaseSink.Builder<Builder, DomainInjectingSink> {
 

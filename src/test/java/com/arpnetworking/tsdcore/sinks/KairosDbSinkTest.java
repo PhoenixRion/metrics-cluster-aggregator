@@ -44,7 +44,7 @@ import java.net.URI;
 /**
  * Tests for the <code>KairosDbSink</code> class.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public class KairosDbSinkTest extends BaseActorTest {
 

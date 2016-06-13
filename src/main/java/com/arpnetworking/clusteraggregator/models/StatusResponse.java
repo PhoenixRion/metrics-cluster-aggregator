@@ -44,7 +44,7 @@ import java.util.Map;
 /**
  * Response model for the status http endpoint.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class StatusResponse {
     public String getClusterLeader() {

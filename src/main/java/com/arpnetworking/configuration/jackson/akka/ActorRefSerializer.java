@@ -28,7 +28,7 @@ import java.io.IOException;
 /**
  * Serializer for an Akka ActorRef.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class ActorRefSerializer extends JsonSerializer<ActorRef> {
     /**

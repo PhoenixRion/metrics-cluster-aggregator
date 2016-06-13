@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 /**
  * Jackson module for serializing and deserializing Akka objects.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public class AkkaLoggingModule extends SimpleModule {
 

@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  * Circonus API to continually lookup the check bundle and set any metrics to
  * the active state.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class CheckBundleActivator extends UntypedActor {
     /**

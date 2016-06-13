@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Actual actor responsible for aggregating.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class AggregationRouter extends UntypedActor {
 

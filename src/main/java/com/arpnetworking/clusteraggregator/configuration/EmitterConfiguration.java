@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Representation of an emitter configuration for cluster aggregator.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class EmitterConfiguration {
     /**
@@ -70,7 +70,7 @@ public final class EmitterConfiguration {
     /**
      * Implementation of builder pattern for {@link EmitterConfiguration}.
      *
-     * @author Brandon Arp (barp at groupon dot com)
+     * @author Brandon Arp (brandonarp at gmail dot com)
      */
     public static final class Builder extends OvalBuilder<EmitterConfiguration> {
         /**

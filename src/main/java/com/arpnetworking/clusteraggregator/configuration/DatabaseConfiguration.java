@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Represents the database configuration.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 @Loggable
 public final class DatabaseConfiguration {
@@ -111,7 +111,7 @@ public final class DatabaseConfiguration {
     /**
      * Implementation of builder pattern for {@link DatabaseConfiguration}.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends OvalBuilder<DatabaseConfiguration> {
 

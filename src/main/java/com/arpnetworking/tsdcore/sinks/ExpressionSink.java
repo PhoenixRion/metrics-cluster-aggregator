@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  * Intermediate publisher which computes additional <code>AggregatedData</code>
  * instances using configured expressions.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class ExpressionSink extends BaseSink {
 

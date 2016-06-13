@@ -22,7 +22,7 @@ import net.sf.oval.constraint.NotNull;
 /**
  * Represents the shard rebalancing configuration.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class RebalanceConfiguration {
     public int getMaxParallel() {
@@ -44,7 +44,7 @@ public final class RebalanceConfiguration {
     /**
      * Implementation of builder pattern for {@link RebalanceConfiguration}.
      *
-     * @author Brandon Arp (barp at groupon dot com)
+     * @author Brandon Arp (brandonarp at gmail dot com)
      */
     public static final class Builder extends OvalBuilder<RebalanceConfiguration> {
 

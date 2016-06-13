@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Simple in-memory partition manager.  This class *is not* thread safe.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class InMemoryPartitionSet implements PartitionSet {
     /**

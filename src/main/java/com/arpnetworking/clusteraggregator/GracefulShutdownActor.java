@@ -29,7 +29,7 @@ import com.google.inject.name.Named;
 /**
  * Shuts down the Akka cluster gracefully.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class GracefulShutdownActor extends UntypedActor {
     /**

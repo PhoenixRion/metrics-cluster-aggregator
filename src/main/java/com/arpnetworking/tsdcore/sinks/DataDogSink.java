@@ -45,7 +45,7 @@ import java.util.List;
  * API Documentation:
  * http://docs.datadoghq.com/api/
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class DataDogSink extends HttpPostSink {
 
@@ -177,7 +177,7 @@ public final class DataDogSink extends HttpPostSink {
     /**
      * Implementation of builder pattern for <code>DataDogSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends HttpPostSink.Builder<Builder, DataDogSink> {
 

@@ -73,7 +73,7 @@ import java.util.stream.Collectors;
  *     ServiceCheckBinding - Sent internally after registration of a check bundle.  The binding is stored internally
  *       to keep track of check bundle urls.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 @SuppressWarnings("deprecation")
 public final class CirconusSinkActor extends UntypedActor {
