@@ -32,7 +32,6 @@ import com.arpnetworking.tsdcore.model.AggregationMessage;
 import com.arpnetworking.tsdcore.model.FQDSN;
 import com.arpnetworking.tsdcore.model.PeriodicData;
 import com.arpnetworking.tsdcore.statistics.Statistic;
-import com.arpnetworking.tsdcore.statistics.StatisticFactory;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -42,6 +41,7 @@ import scala.concurrent.duration.FiniteDuration;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -161,8 +161,10 @@ public class AggClientConnection extends UntypedActor {
                         .log();
                 getContext().parent().tell(setRecord, getSelf());
                 if (setRecord.getStatisticsCount() > 0) {
-                    final PeriodicData periodicData = buildPeriodicData(setRecord);
-                    getContext().parent().tell(periodicData, self());
+                    final Optional<PeriodicData> periodicData = buildPeriodicData(setRecord);
+                    if (periodicData.isPresent()) {
+                        getContext().parent().tell(periodicData.get(), self());
+                    }
                 }
             } else if (gm instanceof Messages.HeartbeatRecord) {
                 LOGGER.debug()
@@ -182,7 +184,7 @@ public class AggClientConnection extends UntypedActor {
             if (!messageOptional.isPresent() && current.length() > 4) {
                 LOGGER.debug()
                         .setMessage("buffer did not deserialize completely")
-                        .addData("remainingBytes", (Integer) current.length())
+                        .addData("remainingBytes", current.length())
                         .addContext("actor", self())
                         .log();
             }
@@ -191,9 +193,57 @@ public class AggClientConnection extends UntypedActor {
         _buffer = current;
     }
 
-    private PeriodicData buildPeriodicData(final Messages.StatisticSetRecord setRecord) {
+    private Optional<PeriodicData> buildPeriodicData(final Messages.StatisticSetRecord setRecord) {
         final CombinedMetricData combinedMetricData = CombinedMetricData.Builder.fromStatisticSetRecord(setRecord).build();
         final ImmutableList.Builder<AggregatedData> builder = ImmutableList.builder();
+        final ImmutableMap.Builder<String, String> dimensionBuilder = ImmutableMap.builder();
+
+        Optional<String> host = Optional.absent();
+        Optional<String> service = Optional.absent();
+        Optional<String> cluster = Optional.absent();
+        for (final Messages.DimensionEntry dimensionEntry : setRecord.getDimensionsList()) {
+            if (HOST_KEY.equals(dimensionEntry.getKey())) {
+                host = Optional.fromNullable(dimensionEntry.getValue());
+            } else if (SERVICE_KEY.equals(dimensionEntry.getKey())) {
+                service = Optional.fromNullable(dimensionEntry.getValue());
+            } else if (CLUSTER_KEY.equals(dimensionEntry.getKey())) {
+                cluster = Optional.fromNullable(dimensionEntry.getValue());
+            } else {
+                dimensionBuilder.put(dimensionEntry.getKey(), dimensionEntry.getValue());
+            }
+        }
+
+        if (!service.isPresent()) {
+            service = Optional.fromNullable(setRecord.getService());
+        }
+
+        if (!cluster.isPresent()) {
+            cluster = Optional.fromNullable(setRecord.getCluster());
+            if (!cluster.isPresent()) {
+                cluster = _clusterName;
+            }
+        }
+
+        if (!host.isPresent()) {
+            host = _hostName;
+        }
+
+        dimensionBuilder.put(HOST_KEY, host.or(""));
+        dimensionBuilder.put(SERVICE_KEY, service.or(""));
+        dimensionBuilder.put(CLUSTER_KEY, cluster.or(""));
+
+        if (!(host.isPresent() && service.isPresent() && cluster.isPresent())) {
+            INCOMPLETE_RECORD_LOGGER.warn()
+                    .setMessage("Cannot process StatisticSet record, missing required fields.")
+                    .addData("host", host)
+                    .addData("service", service)
+                    .addData("cluster", cluster)
+                    .log();
+            return Optional.absent();
+        }
+
+        final ImmutableMap<String, String> dimensions = dimensionBuilder.build();
+
         for (final Map.Entry<Statistic, CombinedMetricData.StatisticValue> record
                 : combinedMetricData.getCalculatedValues().entrySet()) {
             final AggregatedData aggregatedData = new AggregatedData.Builder()
@@ -203,7 +253,7 @@ public class AggClientConnection extends UntypedActor {
                             .setService(setRecord.getService())
                             .setStatistic(record.getKey())
                             .build())
-                    .setHost(_hostName.or(""))
+                    .setHost(host.get())
                     .setIsSpecified(record.getValue().getUserSpecified())
                     .setPeriod(combinedMetricData.getPeriod())
                     .setPopulationSize(1L)
@@ -214,13 +264,13 @@ public class AggClientConnection extends UntypedActor {
                     .build();
             builder.add(aggregatedData);
         }
-        return new PeriodicData.Builder()
+        return Optional.of(new PeriodicData.Builder()
                 .setData(builder.build())
                 .setConditions(ImmutableList.of())
-                .setDimensions(ImmutableMap.of("host", _hostName.or("")))
+                .setDimensions(dimensions)
                 .setPeriod(combinedMetricData.getPeriod())
                 .setStart(combinedMetricData.getPeriodStart())
-                .build();
+                .build());
     }
 
     private Optional<String> _hostName = Optional.absent();
@@ -228,10 +278,15 @@ public class AggClientConnection extends UntypedActor {
     private ByteString _buffer = ByteString.empty();
     private final ActorRef _connection;
     private final InetSocketAddress _remoteAddress;
-    private final StatisticFactory _statisticFactory = new StatisticFactory();
     private static final Logger LOGGER = LoggerFactory.getLogger(AggClientConnection.class);
-
+    private static final Logger INCOMPLETE_RECORD_LOGGER = LoggerFactory.getRateLimitLogger(
+            AggClientConnection.class,
+            Duration.ofSeconds(30));
     private static final boolean IS_ENABLED;
+    private static final String HOST_KEY = "host";
+    private static final String SERVICE_KEY = "service";
+    private static final String CLUSTER_KEY = "cluster";
+
 
     static {
         // Determine the local host name
