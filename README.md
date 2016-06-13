@@ -161,7 +161,7 @@ Development
 -----------
 
 To build the service locally you must satisfy these prerequisites:
-* [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (Or Invoke with JDKW)
 
 Next, fork the repository, clone and build:
 
