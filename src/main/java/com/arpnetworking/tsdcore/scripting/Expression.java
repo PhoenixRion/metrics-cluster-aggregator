@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * Interface for classes providing expression evaluation capabilities.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public interface Expression {
     /**

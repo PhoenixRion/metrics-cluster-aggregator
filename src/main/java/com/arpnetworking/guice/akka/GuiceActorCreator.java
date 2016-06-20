@@ -27,7 +27,7 @@ import com.google.inject.Injector;
  *
  * TODO(vkoskela): This is _duplicated_ in metrics-portal and should find its way to a common utility package.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class GuiceActorCreator implements IndirectActorProducer {
     /**

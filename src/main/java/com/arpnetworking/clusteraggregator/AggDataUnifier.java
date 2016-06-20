@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 /**
  * Unifies units.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class AggDataUnifier {
     private AggDataUnifier() {}

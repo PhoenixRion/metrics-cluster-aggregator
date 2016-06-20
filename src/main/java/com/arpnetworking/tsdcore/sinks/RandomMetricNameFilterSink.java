@@ -28,7 +28,7 @@ import net.sf.oval.constraint.NotNull;
  * A {@link com.arpnetworking.tsdcore.sinks.Sink} that only allows a percentage of data through to the wrapped
  * {@link com.arpnetworking.tsdcore.sinks.Sink}.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class RandomMetricNameFilterSink extends BaseSink {
 

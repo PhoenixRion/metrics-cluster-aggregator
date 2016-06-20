@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  * and forwards included metrics to the wrapped sink. This  class is thread
  * safe.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class ServiceNameFilteringSink extends BaseSink {
 
@@ -148,7 +148,7 @@ public final class ServiceNameFilteringSink extends BaseSink {
     /**
      * Base <code>Builder</code> implementation.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends BaseSink.Builder<Builder, ServiceNameFilteringSink> {
 

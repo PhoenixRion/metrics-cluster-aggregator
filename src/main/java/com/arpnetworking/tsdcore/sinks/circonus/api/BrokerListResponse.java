@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Circonus api for a broker list response.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  * @see <a href="https://login.circonus.com/resources/api/calls/broker">API Docs</a>
  */
 public class BrokerListResponse {

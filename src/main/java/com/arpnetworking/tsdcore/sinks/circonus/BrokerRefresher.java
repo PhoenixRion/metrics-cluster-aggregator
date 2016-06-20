@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * This actor will schedule it's own lookups and send messages about the brokers to its parent.
  * NOTE: Lookup failures will be logged, but not propagated to the parent.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class BrokerRefresher extends UntypedActor {
     /**

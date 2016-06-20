@@ -40,7 +40,7 @@ import javax.sql.DataSource;
  * could read a subkey for Hikari thus decoupling our configuration from Hikari's. The same can be done for Flyway by
  * automatically converting a subkey into a Properties instance and giving it to Flyway.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 @Loggable
 public class Database implements Launchable {

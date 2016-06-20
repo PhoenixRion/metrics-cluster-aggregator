@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * Message class containing the information retrieved from the {@link com.arpnetworking.clusteraggregator.aggregation.Bookkeeper}.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class BookkeeperData implements Serializable {
     public long getClusters() {

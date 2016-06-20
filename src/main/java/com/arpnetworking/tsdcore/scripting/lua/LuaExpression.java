@@ -68,7 +68,7 @@ import java.util.Set;
 /**
  * Defines and supports evaluation of an expression using Lua.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public class LuaExpression implements Expression {
 

@@ -43,7 +43,7 @@ import java.util.List;
  * Signal FX REST API Article:
  * https://support.signalfx.com/hc/en-us/articles/201270489-Use-the-SignalFx-REST-API
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class SignalFxSink extends HttpPostSink {
 
@@ -172,7 +172,7 @@ public final class SignalFxSink extends HttpPostSink {
     /**
      * Implementation of builder pattern for <code>SignalFxSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends HttpPostSink.Builder<Builder, SignalFxSink> {
 

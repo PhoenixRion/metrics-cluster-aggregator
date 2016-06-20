@@ -29,7 +29,7 @@ import java.util.Collection;
 /**
  * Tests for generic partition sets.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 @RunWith(Parameterized.class)
 public class PartitionSetTest {

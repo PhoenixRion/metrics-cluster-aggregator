@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 /**
  * An actor that handles the data sent from an agg client.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class AggClientConnection extends UntypedActor {
     /**

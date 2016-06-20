@@ -33,7 +33,7 @@ import java.net.InetSocketAddress;
 /**
  * TCP Server that listens for aggregation client connections.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class AggClientServer extends UntypedActor {
     /**

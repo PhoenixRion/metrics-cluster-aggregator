@@ -32,7 +32,7 @@ import javax.persistence.Version;
 /**
  * Model that holds the aggregate partitions for a {@link PartitionSet}.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 // CHECKSTYLE.OFF: MemberNameCheck
 @Entity

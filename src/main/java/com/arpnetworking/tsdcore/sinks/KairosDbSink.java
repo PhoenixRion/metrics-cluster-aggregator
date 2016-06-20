@@ -43,7 +43,7 @@ import java.util.Optional;
 /**
  * Publishes to a KairosDbSink endpoint. This class is thread safe.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class KairosDbSink extends HttpPostSink {
 
@@ -323,7 +323,7 @@ public final class KairosDbSink extends HttpPostSink {
     /**
      * Implementation of builder pattern for <code>KairosDbSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static class Builder extends HttpPostSink.Builder<Builder, KairosDbSink> {
 

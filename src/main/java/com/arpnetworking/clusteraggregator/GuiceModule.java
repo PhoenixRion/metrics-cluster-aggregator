@@ -77,7 +77,7 @@ import java.util.concurrent.CompletionStage;
  * The primary Guice module used to bootstrap the cluster aggregator. NOTE: this module will be constructed whenever
  * a new configuration is loaded, and will be torn down when another configuration is loaded.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class GuiceModule extends AbstractModule {
     /**

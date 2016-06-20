@@ -23,7 +23,7 @@ import com.arpnetworking.utility.partitioning.PartitionSetFactory;
 /**
  * Factory to create a DatabasePartitionSet.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class TestDatabasePartitionSetFactory implements PartitionSetFactory {
     /**

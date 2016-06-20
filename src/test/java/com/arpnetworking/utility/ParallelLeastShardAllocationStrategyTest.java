@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for the ParallelLeastShardAllocationStrategy class.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class ParallelLeastShardAllocationStrategyTest extends BaseActorTest {
 

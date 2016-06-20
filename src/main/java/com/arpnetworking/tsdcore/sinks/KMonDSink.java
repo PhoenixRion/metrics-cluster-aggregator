@@ -44,8 +44,8 @@ import java.util.Map;
 /**
  * Publishes aggregations to KMonD. This class is thread safe.
  *
- * @author Brandon Arp (barp at groupon dot com)
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class KMonDSink extends HttpPostSink {
 
@@ -214,7 +214,7 @@ public final class KMonDSink extends HttpPostSink {
     /**
      * Implementation of builder pattern for <code>MonitordSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends HttpPostSink.Builder<Builder, KMonDSink> {
 

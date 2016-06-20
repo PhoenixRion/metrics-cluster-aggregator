@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * Representation of cluster aggregator configuration.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class ClusterAggregatorConfiguration {
     /**
@@ -184,7 +184,7 @@ public final class ClusterAggregatorConfiguration {
     /**
      * Implementation of builder pattern for {@link com.arpnetworking.clusteraggregator.configuration.ClusterAggregatorConfiguration}.
      *
-     * @author Brandon Arp (barp at groupon dot com)
+     * @author Brandon Arp (brandonarp at gmail dot com)
      */
     public static final class Builder extends OvalBuilder<ClusterAggregatorConfiguration> {
         /**

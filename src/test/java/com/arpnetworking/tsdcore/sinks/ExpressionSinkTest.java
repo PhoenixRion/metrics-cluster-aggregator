@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Tests for the <code>ExpressionSink</code> class.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public class ExpressionSinkTest {
 

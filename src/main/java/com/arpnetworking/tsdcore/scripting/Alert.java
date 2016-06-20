@@ -23,7 +23,7 @@ import com.arpnetworking.tsdcore.model.PeriodicData;
  * alert is considered "in alarm" or "triggered" when the evaluation returns
  * <code>true</code>.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public interface Alert {
 

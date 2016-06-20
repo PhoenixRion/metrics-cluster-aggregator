@@ -42,7 +42,7 @@ import java.util.Map;
  * These will be combined in an {@link com.arpnetworking.clusteraggregator.aggregation.AggregationRouter} to
  * produce the set of cluster statistics.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class CombinedMetricData {
     /**
@@ -91,7 +91,7 @@ public final class CombinedMetricData {
     /**
      * Implementation of builder pattern for {@link CombinedMetricData}.
      *
-     * @author Brandon Arp (barp at groupon dot com)
+     * @author Brandon Arp (brandonarp at gmail dot com)
      */
     public static class Builder extends OvalBuilder<CombinedMetricData> {
         /**
@@ -262,7 +262,7 @@ public final class CombinedMetricData {
     /**
      * Representation of a computed statistic and related data.
      *
-     * @author Brandon Arp (barp at groupon dot com)
+     * @author Brandon Arp (brandonarp at gmail dot com)
      */
     public static class StatisticValue {
         /**

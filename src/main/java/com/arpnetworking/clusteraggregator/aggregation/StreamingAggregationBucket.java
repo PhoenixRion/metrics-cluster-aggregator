@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * Container class that holds aggregation pending records.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class StreamingAggregationBucket {
 

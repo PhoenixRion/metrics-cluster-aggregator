@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * Simple tests for the data class {@link BookkeeperDataTest}.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class BookkeeperDataTest {
     @Test

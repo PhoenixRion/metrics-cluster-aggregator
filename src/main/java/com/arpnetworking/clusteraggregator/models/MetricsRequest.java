@@ -21,7 +21,7 @@ import java.io.Serializable;
 /**
  * Message class to request the collected metrics.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 @SuppressWarnings("ClassMayBeInterface")
 public final class MetricsRequest implements Serializable {
