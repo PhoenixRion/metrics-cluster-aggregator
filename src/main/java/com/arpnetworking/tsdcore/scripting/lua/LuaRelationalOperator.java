@@ -20,7 +20,7 @@ package com.arpnetworking.tsdcore.scripting.lua;
  *
  * @see <a href="http://www.lua.org/pil/3.2.html">http://www.lua.org/pil/3.2.html</a>
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public enum LuaRelationalOperator {
 

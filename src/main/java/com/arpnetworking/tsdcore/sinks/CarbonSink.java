@@ -25,7 +25,7 @@ import org.vertx.java.core.net.NetSocket;
 /**
  * Publisher to send data to a Carbon server.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class CarbonSink extends VertxSink {
 
@@ -70,7 +70,7 @@ public class CarbonSink extends VertxSink {
     /**
      * Implementation of builder pattern for <code>CarbonSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends VertxSink.Builder<Builder, CarbonSink> {
 

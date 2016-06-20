@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for the {@link PeriodicStatisticsActor} actor.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class PeriodicStatisticsActorTest extends BaseActorTest {
 

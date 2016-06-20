@@ -34,7 +34,7 @@ import javax.persistence.Version;
 /**
  * Model that holds the data for a partition.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 // CHECKSTYLE.OFF: MemberNameCheck
 @Entity

@@ -54,7 +54,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * Intermediate publisher which computes and annotates <code>AggregatedData</code>
  * with alert or alarm conditions.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class AlertSink extends BaseSink {
 

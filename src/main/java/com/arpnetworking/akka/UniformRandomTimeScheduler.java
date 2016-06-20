@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Scheduler that will send a message in a uniform random time interval.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class UniformRandomTimeScheduler {
     /**

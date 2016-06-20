@@ -27,7 +27,7 @@ import com.google.common.base.Optional;
  *
  * @param <T> The type representing the validated configuration.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class ActorConfigurator<T> implements Listener {
     /**

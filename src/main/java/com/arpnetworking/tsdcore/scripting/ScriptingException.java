@@ -18,7 +18,7 @@ package com.arpnetworking.tsdcore.scripting;
 /**
  * Top-level exception thrown by classes in the scripting package.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public class ScriptingException extends Exception {
 

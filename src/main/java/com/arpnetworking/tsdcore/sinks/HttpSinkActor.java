@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Actor that sends HTTP requests via a Ning HTTP client.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class HttpSinkActor extends UntypedActor {
     /**

@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Http server routes.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class Routes implements Function<HttpRequest, CompletionStage<HttpResponse>> {
 

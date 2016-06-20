@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 /**
  * A traditional tsdcore single threaded sink to act as an adapter for the actor-based sink.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class CirconusSink extends BaseSink {
     /**

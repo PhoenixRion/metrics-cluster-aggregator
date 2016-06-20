@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A test helper to assist in branch coverage for close with resources uses of a {@link com.arpnetworking.metrics.Metrics}.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class ThrowingMetrics implements Metrics {
     /**

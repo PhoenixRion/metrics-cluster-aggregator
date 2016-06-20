@@ -40,7 +40,7 @@ import java.util.HashMap;
  *
  * TODO(vkoskela): Make this class thread safe [MAI-100]
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public final class RrdSink extends BaseSink {
 
@@ -112,7 +112,7 @@ public final class RrdSink extends BaseSink {
     /**
      * Implementation of builder pattern for <code>RrdClusterSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends BaseSink.Builder<Builder, RrdSink> {
 

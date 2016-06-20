@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
  * Implementation of <code>MetricsLimiter</code> which does not impose a limit
  * or track the number of metrics being created.
  *
- * @author Ville Koskela (ville at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class NoLimitMetricsLimiter implements MetricsLimiter {
 

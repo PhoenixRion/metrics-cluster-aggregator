@@ -22,7 +22,7 @@ import com.arpnetworking.tsdcore.model.AggregatedData;
 /**
  * Handles extracting the sharding information from an aggregation message.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class AggMessageExtractor implements ShardRegion.MessageExtractor {
     /**

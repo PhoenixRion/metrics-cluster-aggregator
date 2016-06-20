@@ -24,7 +24,7 @@ import org.junit.Test;
 /**
  * Tests for the DatabasePartitionSet class.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class DatabasePartitionSetTest {
     @Test

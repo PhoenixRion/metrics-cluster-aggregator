@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Holds the node metrics for a single period.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class PeriodMetrics {
     /**

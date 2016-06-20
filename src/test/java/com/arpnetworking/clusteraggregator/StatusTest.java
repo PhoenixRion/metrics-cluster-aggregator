@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for the {@link Status} actor.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class StatusTest extends BaseActorTest {
 

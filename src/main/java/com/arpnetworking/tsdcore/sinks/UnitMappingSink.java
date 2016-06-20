@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Implementation of <code>Sink</code> which maps values in one unit to another.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class UnitMappingSink extends BaseSink {
 
@@ -142,7 +142,7 @@ public final class UnitMappingSink extends BaseSink {
     /**
      * Implementation of builder pattern for <code>UnitMappingSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends BaseSink.Builder<Builder, UnitMappingSink> {
 

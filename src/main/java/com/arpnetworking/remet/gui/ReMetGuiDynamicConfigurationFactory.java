@@ -38,7 +38,7 @@ import java.util.List;
  * to cluster and service parameter values in API calls to ReMet Gui for configuration
  * data.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class ReMetGuiDynamicConfigurationFactory implements DynamicConfigurationFactory {
 

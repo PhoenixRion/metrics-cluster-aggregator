@@ -24,7 +24,7 @@ import java.util.Collections;
 /**
  * Filtering sink for excluding data based on dimensions present or absent.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class DimensionFilteringSink extends BaseSink {
 
@@ -66,7 +66,7 @@ public final class DimensionFilteringSink extends BaseSink {
     /**
      * Implementation of builder pattern for <code>DimensionFilteringSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends BaseSink.Builder<Builder, DimensionFilteringSink> {
 

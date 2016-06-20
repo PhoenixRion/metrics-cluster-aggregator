@@ -50,7 +50,7 @@ import java.util.Map;
  * This computes the value of the expression as a separate statistic and yields
  * a single FQSN appropriate for alerting.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class LuaAlert implements Alert {
 

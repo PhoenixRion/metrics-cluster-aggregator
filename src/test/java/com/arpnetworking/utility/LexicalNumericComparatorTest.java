@@ -26,7 +26,7 @@ import java.util.Collections;
 /**
  * Tests for the LexicalNumericComparator.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class LexicalNumericComparatorTest {
     @Test

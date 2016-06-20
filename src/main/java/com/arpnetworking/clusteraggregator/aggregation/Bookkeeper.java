@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  * Internal-only messages:
  *     "UPDATE": Triggers an update of the cached data from the persistence object
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class Bookkeeper extends UntypedActor {
     /**

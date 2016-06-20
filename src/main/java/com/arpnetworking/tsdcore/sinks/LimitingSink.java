@@ -54,7 +54,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * <code>AggregatedData</code> instances recorded by the underlying
  * <code>Sink</code> instance.
  *
- * @author Ville Koskela (vkoskela at groupon dot com)
+ * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
  */
 public final class LimitingSink extends BaseSink {
 
@@ -210,7 +210,7 @@ public final class LimitingSink extends BaseSink {
     /**
      * Implementation of builder pattern for <code>LimitingSink</code>.
      *
-     * @author Ville Koskela (vkoskela at groupon dot com)
+     * @author Ville Koskela (ville dot koskela at inscopemetrics dot com)
      */
     public static final class Builder extends BaseSink.Builder<Builder, LimitingSink> {
 

@@ -37,7 +37,7 @@ import java.util.List;
  * Serves as a router for configuration-created actors.  Handles reconfiguration messages and swaps references on reconfiguration.
  *
  * @param <T> The type of configuration
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class ConfigurableActorProxy<T> extends UntypedActor {
     /**

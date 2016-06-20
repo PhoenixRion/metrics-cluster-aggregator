@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 /**
  * A partition set that is backed by an eBean database.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class DatabasePartitionSet implements PartitionSet {
     /**

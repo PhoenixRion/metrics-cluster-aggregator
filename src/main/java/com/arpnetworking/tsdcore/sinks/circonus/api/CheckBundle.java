@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 /**
  * Represents a check bundle in Circonus.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  * @see <a href="https://login.circonus.com/resources/api/calls/check_bundle">API Docs</a>
  */
 @Loggable

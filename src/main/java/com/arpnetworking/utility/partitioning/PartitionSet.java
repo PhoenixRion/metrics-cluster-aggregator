@@ -20,7 +20,7 @@ import com.google.common.base.Optional;
 /**
  * Represents a set of partitions and a way to register and retrieve the mappings.
  *
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public interface PartitionSet {
     /**

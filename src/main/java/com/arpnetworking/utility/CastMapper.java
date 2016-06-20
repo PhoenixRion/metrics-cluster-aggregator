@@ -23,7 +23,7 @@ import akka.dispatch.Mapper;
  *
  * @param <T> Input type
  * @param <R> Output type
- * @author Brandon Arp (barp at groupon dot com)
+ * @author Brandon Arp (brandonarp at gmail dot com)
  */
 public class CastMapper<T, R> extends Mapper<T, R> {
     /**
