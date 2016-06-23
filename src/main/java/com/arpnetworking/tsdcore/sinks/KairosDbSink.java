@@ -26,6 +26,7 @@ import com.arpnetworking.tsdcore.model.PeriodicData;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotNull;
@@ -38,7 +39,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 /**
  * Publishes to a KairosDbSink endpoint. This class is thread safe.
@@ -74,10 +75,8 @@ public final class KairosDbSink extends HttpPostSink {
         // Extract and transform shared data
         final long timestamp = periodicData.getStart().plus(periodicData.getPeriod()).getMillis();
         final String serializedPeriod = periodicData.getPeriod().toString(ISOPeriodFormat.standard());
-        final Optional<String> host = Optional.ofNullable(periodicData.getDimensions().get("host"));
-        final Optional<String> scope = Optional.ofNullable(periodicData.getDimensions().get("scope"));
-        final Optional<String> domain = Optional.ofNullable(periodicData.getDimensions().get("domain"));
-        final Serializer serializer = new Serializer(timestamp, serializedPeriod, host, scope, domain);
+        final ImmutableMap<String, String> dimensions = periodicData.getDimensions();
+        final Serializer serializer = new Serializer(timestamp, serializedPeriod, dimensions);
 
         // Initialize the chunk buffer
         currentChunk.put(HEADER);
@@ -164,14 +163,10 @@ public final class KairosDbSink extends HttpPostSink {
         Serializer(
                 final long timestamp,
                 final String serializedPeriod,
-                final Optional<String> host,
-                final Optional<String> scope,
-                final Optional<String> domain) {
+                final ImmutableMap<String, String> dimensions) {
             _timestamp = timestamp;
             _serializedPeriod = serializedPeriod;
-            _host = host;
-            _scope = scope;
-            _domain = domain;
+            _dimensions = dimensions;
         }
 
         public void serializeDatum(
@@ -190,14 +185,8 @@ public final class KairosDbSink extends HttpPostSink {
                 chunkGenerator.writeNumberField("timestamp", _timestamp);
                 chunkGenerator.writeNumberField("value", datum.getValue().getValue());
                 chunkGenerator.writeObjectFieldStart("tags");
-                if (_host.isPresent()) {
-                    chunkGenerator.writeStringField("host", _host.get());
-                }
-                if (_scope.isPresent()) {
-                    chunkGenerator.writeStringField("scope", _scope.get());
-                }
-                if (_domain.isPresent()) {
-                    chunkGenerator.writeStringField("domain", _domain.get());
+                for (Map.Entry<String, String> entry : _dimensions.entrySet()) {
+                    chunkGenerator.writeStringField(entry.getKey(), entry.getValue());
                 }
                 chunkGenerator.writeStringField("service", datum.getFQDSN().getService());
                 chunkGenerator.writeStringField("cluster", datum.getFQDSN().getCluster());
@@ -261,14 +250,8 @@ public final class KairosDbSink extends HttpPostSink {
             chunkGenerator.writeNumberField("timestamp", _timestamp);
             chunkGenerator.writeNumberField("value", condition.isTriggered().get() ? 1 : 0);
             chunkGenerator.writeObjectFieldStart("tags");
-            if (_host.isPresent()) {
-                chunkGenerator.writeStringField("host", _host.get());
-            }
-            if (_scope.isPresent()) {
-                chunkGenerator.writeStringField("scope", _scope.get());
-            }
-            if (_domain.isPresent()) {
-                chunkGenerator.writeStringField("domain", _domain.get());
+            for (Map.Entry<String, String> entry : _dimensions.entrySet()) {
+                chunkGenerator.writeStringField(entry.getKey(), entry.getValue());
             }
             chunkGenerator.writeStringField("service", condition.getFQDSN().getService());
             chunkGenerator.writeStringField("cluster", condition.getFQDSN().getCluster());
@@ -294,14 +277,8 @@ public final class KairosDbSink extends HttpPostSink {
             chunkGenerator.writeNumberField("timestamp", _timestamp);
             chunkGenerator.writeNumberField("value", condition.getThreshold().getValue());
             chunkGenerator.writeObjectFieldStart("tags");
-            if (_host.isPresent()) {
-                chunkGenerator.writeStringField("host", _host.get());
-            }
-            if (_scope.isPresent()) {
-                chunkGenerator.writeStringField("scope", _scope.get());
-            }
-            if (_domain.isPresent()) {
-                chunkGenerator.writeStringField("domain", _domain.get());
+            for (Map.Entry<String, String> entry : _dimensions.entrySet()) {
+                chunkGenerator.writeStringField(entry.getKey(), entry.getValue());
             }
             chunkGenerator.writeStringField("service", condition.getFQDSN().getService());
             chunkGenerator.writeStringField("cluster", condition.getFQDSN().getCluster());
@@ -315,9 +292,7 @@ public final class KairosDbSink extends HttpPostSink {
 
         private final long _timestamp;
         private final String _serializedPeriod;
-        private final Optional<String> _host;
-        private final Optional<String> _scope;
-        private final Optional<String> _domain;
+        private final ImmutableMap<String, String> _dimensions;
     }
 
     /**
