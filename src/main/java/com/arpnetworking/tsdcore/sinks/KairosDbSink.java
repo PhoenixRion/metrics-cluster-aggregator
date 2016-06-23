@@ -188,8 +188,12 @@ public final class KairosDbSink extends HttpPostSink {
                 for (Map.Entry<String, String> entry : _dimensions.entrySet()) {
                     chunkGenerator.writeStringField(entry.getKey(), entry.getValue());
                 }
-                chunkGenerator.writeStringField("service", datum.getFQDSN().getService());
-                chunkGenerator.writeStringField("cluster", datum.getFQDSN().getCluster());
+                if (!_dimensions.containsKey("service")) {
+                    chunkGenerator.writeStringField("service", datum.getFQDSN().getService());
+                }
+                if (!_dimensions.containsKey("cluster")) {
+                    chunkGenerator.writeStringField("cluster", datum.getFQDSN().getCluster());
+                }
                 chunkGenerator.writeEndObject();
                 chunkGenerator.writeEndObject();
 
@@ -253,8 +257,12 @@ public final class KairosDbSink extends HttpPostSink {
             for (Map.Entry<String, String> entry : _dimensions.entrySet()) {
                 chunkGenerator.writeStringField(entry.getKey(), entry.getValue());
             }
-            chunkGenerator.writeStringField("service", condition.getFQDSN().getService());
-            chunkGenerator.writeStringField("cluster", condition.getFQDSN().getCluster());
+            if (!_dimensions.containsKey("service")) {
+                chunkGenerator.writeStringField("service", condition.getFQDSN().getService());
+            }
+            if (!_dimensions.containsKey("cluster")) {
+                chunkGenerator.writeStringField("cluster", condition.getFQDSN().getCluster());
+            }
             chunkGenerator.writeEndObject();
             chunkGenerator.writeEndObject();
 
@@ -280,8 +288,12 @@ public final class KairosDbSink extends HttpPostSink {
             for (Map.Entry<String, String> entry : _dimensions.entrySet()) {
                 chunkGenerator.writeStringField(entry.getKey(), entry.getValue());
             }
-            chunkGenerator.writeStringField("service", condition.getFQDSN().getService());
-            chunkGenerator.writeStringField("cluster", condition.getFQDSN().getCluster());
+            if (!_dimensions.containsKey("service")) {
+                chunkGenerator.writeStringField("service", condition.getFQDSN().getService());
+            }
+            if (!_dimensions.containsKey("cluster")) {
+                chunkGenerator.writeStringField("cluster", condition.getFQDSN().getCluster());
+            }
             chunkGenerator.writeEndObject();
             chunkGenerator.writeEndObject();
 
