@@ -23,6 +23,7 @@ import com.arpnetworking.tsdcore.model.PeriodicData;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.wavefront.agent.PointHandler;
+import com.wavefront.agent.PointHandlerImpl;
 import com.wavefront.agent.PushAgent;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -351,7 +352,7 @@ public final class WavefrontSink extends BaseSink {
         }
 
         PointHandler createPointHandler() {
-            return new PointHandler(-1, pushValidationLevel, pushFlushMaxPoints, getFlushTasks(-1));
+            return new PointHandlerImpl(-1, pushValidationLevel, pushFlushMaxPoints, getFlushTasks(-1));
         }
     }
 }

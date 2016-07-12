@@ -150,7 +150,7 @@
     <signalfx.protoc.version>0.0.23</signalfx.protoc.version>
     <typesafe.config.version>1.2.1</typesafe.config.version>
     <vertx.core.version>2.1.6</vertx.core.version>
-    <wavefront.version>3.13</wavefront.version>
+    <wavefront.version>3.20</wavefront.version>
     <wiremock.version>1.57</wiremock.version>
 
     <!--Plugin versions-->
@@ -601,11 +601,6 @@
     <dependency>
       <groupId>com.wavefront</groupId>
       <artifactId>proxy</artifactId>
-      <version>${wavefront.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.wavefront</groupId>
-      <artifactId>java-lib</artifactId>
       <version>${wavefront.version}</version>
     </dependency>
     <!-- Test - General -->
