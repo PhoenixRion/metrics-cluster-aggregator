@@ -25,6 +25,7 @@ import com.fasterxml.jackson.module.guice.GuiceAnnotationIntrospector;
 import com.fasterxml.jackson.module.guice.GuiceInjectableValues;
 import com.google.common.collect.Lists;
 import com.google.inject.Injector;
+import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 
@@ -61,11 +62,17 @@ public final class EmitterConfiguration {
         return Collections.unmodifiableList(_sinks);
     }
 
+    public int getPoolSize() {
+        return _poolSize;
+    }
+
     private EmitterConfiguration(final Builder builder) {
         _sinks = Lists.newArrayList(builder._sinks);
+        _poolSize = builder._poolSize;
     }
 
     private final List<Sink> _sinks;
+    private final int _poolSize;
 
     /**
      * Implementation of builder pattern for {@link EmitterConfiguration}.
@@ -91,8 +98,24 @@ public final class EmitterConfiguration {
             return this;
         }
 
+        /**
+         * The number of emitters to create in a pool. Sinks are not necessarily also duplicated.
+         * Required. Cannot be null or empty.
+         *
+         * @param value The poolSize.
+         * @return This instance of <code>Builder</code>.
+         */
+        public Builder setPoolSize(final Integer value) {
+            _poolSize = value;
+            return this;
+        }
+
         @NotNull
         @NotEmpty
         private List<Sink> _sinks;
+
+        @NotNull
+        @Min(1)
+        private Integer _poolSize = 1;
     }
 }
