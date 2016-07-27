@@ -32,8 +32,4 @@ public interface Launchable {
      */
     void shutdown();
 
-    /**
-     * Useful for <code>Launchable</code>s to keep track of their state.
-     */
-    enum Stage {NEW, LAUNCHED, SHUTDOWN}
 }

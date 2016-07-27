@@ -100,7 +100,7 @@ public final class EmitterConfiguration {
 
         /**
          * The number of emitters to create in a pool. Sinks are not necessarily also duplicated.
-         * Required. Cannot be null or empty.
+         * Cannot be null or empty.
          *
          * @param value The poolSize.
          * @return This instance of <code>Builder</code>.
