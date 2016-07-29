@@ -31,5 +31,4 @@ public interface Launchable {
      * Shutdown the component.
      */
     void shutdown();
-
 }
