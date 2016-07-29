@@ -77,7 +77,7 @@ public final class DynamicConfiguration extends BaseJacksonConfiguration impleme
                     .log();
             return;
         }
-        _stage = Stage.NEW;
+        _stage = Stage.LAUNCHED;
         LOGGER.debug()
                 .setMessage("Launching")
                 .addData("component", this)
