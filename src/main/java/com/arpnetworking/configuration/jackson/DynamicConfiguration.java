@@ -69,6 +69,15 @@ public final class DynamicConfiguration extends BaseJacksonConfiguration impleme
      */
     @Override
     public synchronized void launch() {
+        if (!Stage.NEW.equals(_stage)) {
+            LOGGER.error()
+                    .setMessage("DynamicConfiguration asked to launch but has already launched.")
+                    .addData("component", this)
+                    .addData("stage", _stage)
+                    .log();
+            return;
+        }
+        _stage = Stage.LAUNCHED;
         LOGGER.debug()
                 .setMessage("Launching")
                 .addData("component", this)
@@ -82,6 +91,16 @@ public final class DynamicConfiguration extends BaseJacksonConfiguration impleme
      */
     @Override
     public synchronized void shutdown() {
+        final Stage oldStage = _stage;
+        _stage = Stage.SHUTDOWN;
+        if (!Stage.LAUNCHED.equals(oldStage)) {
+            LOGGER.error()
+                    .setMessage("DynamicConfiguration asked to shutdown, but was not launched.")
+                    .addData("component", this)
+                    .addData("stage", oldStage)
+                    .log();
+            return;
+        }
         LOGGER.debug()
                 .setMessage("Stopping")
                 .addData("component", this)
@@ -183,6 +202,7 @@ public final class DynamicConfiguration extends BaseJacksonConfiguration impleme
     private final List<com.arpnetworking.commons.builder.Builder<? extends JsonNodeSource>> _sourceBuilders;
     private final List<Listener> _listeners;
     private final TriggerEvaluator _triggerEvaluator;
+    private Stage _stage = Stage.NEW;
 
     private ExecutorService _triggerEvaluatorExecutor;
 
@@ -379,4 +399,10 @@ public final class DynamicConfiguration extends BaseJacksonConfiguration impleme
         @NotNull
         private List<Listener> _listeners;
     }
+
+
+    /**
+     * Used to keep track of this <code>Launchable</code>'s state.
+     */
+    private enum Stage {NEW, LAUNCHED, SHUTDOWN}
 }
