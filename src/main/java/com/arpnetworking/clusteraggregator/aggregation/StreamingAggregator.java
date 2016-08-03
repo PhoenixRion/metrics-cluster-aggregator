@@ -229,10 +229,10 @@ public class StreamingAggregator extends UntypedActor {
                     .setMessage("Initialized aggregator")
                     .addContext("actor", self())
                     .log();
-        } else if (!(_period.equals(metricData.getPeriod()))
+        } else if (!(_period.equals(metricData.getPeriod())
                 && _cluster.equals(metricData.getCluster())
                 && _service.equals(metricData.getService())
-                && _metric.equals(metricData.getMetricName())) {
+                && _metric.equals(metricData.getMetricName()))) {
             LOGGER.error()
                     .setMessage("Received a work item for another aggregator")
                     .addData("workItem", data)
