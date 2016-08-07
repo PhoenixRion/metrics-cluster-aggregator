@@ -162,6 +162,9 @@ Development
 
 To build the service locally you must satisfy these prerequisites:
 * [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (Or Invoke with JDKW)
+* [Docker](http://www.docker.com/) (for [Mac](https://docs.docker.com/docker-for-mac/))
+
+__Note:__ Requires at least Docker for Mac Beta version _Version 1.12.0-rc4-beta19 (build: 10258)_
 
 Next, fork the repository, clone and build:
 
@@ -172,6 +175,14 @@ Building:
 To use the local version in your project you must first install it locally:
 
     metrics-aggregator-daemon> ./mvnw install
+
+To debug the server during run on port 9000:
+
+    metrics-cluster-aggregator> ./mvnw -Ddebug=true docker:start
+
+To debug the server during integration tests on port 9000:
+
+    metrics-cluster-aggregator> ./mvnw -Ddebug=true verify
 
 You can determine the version of the local build from the pom.xml file.  Using the local version is intended only for testing or development.
 
