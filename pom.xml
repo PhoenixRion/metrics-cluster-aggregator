@@ -28,7 +28,7 @@
   <packaging>jar</packaging>
   <name>Metrics Cluster Aggregator</name>
   <description>(Re)Aggregates host level statistics across clusters and writes both host and cluster statistics to various destinations.</description>
-  <version>1.1.4-SNAPSHOT</version>
+  <version>1.2.0</version>
 
   <licenses>
     <license>
@@ -96,7 +96,7 @@
     <connection>scm:git:git@github.com:ArpNetworking/metrics-cluster-aggregator.git</connection>
     <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-cluster-aggregator.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-cluster-aggregator</url>
-    <tag>HEAD</tag>
+    <tag>metrics-cluster-aggregator-1.2.0</tag>
   </scm>
 
   <properties>
@@ -169,7 +169,7 @@
     <jacoco.check.branch.coverage>0.25</jacoco.check.branch.coverage>
 
     <!-- JVM Debug -->
-    <debugJavaOptions/>
+    <debugJavaOptions />
     <debugJavaPort>9000</debugJavaPort>
   </properties>
 
