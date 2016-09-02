@@ -15,6 +15,7 @@
  */
 package com.arpnetworking.tsdcore.sinks;
 
+import com.arpnetworking.clusteraggregator.models.CombinedMetricData;
 import com.arpnetworking.metrics.com.arpnetworking.steno.Logger;
 import com.arpnetworking.metrics.com.arpnetworking.steno.LoggerFactory;
 import com.arpnetworking.tsdcore.model.AggregatedData;
@@ -66,9 +67,14 @@ public final class WavefrontSink extends BaseSink {
             // Build the list of annotations based on cluster and white listed dimensions
             final Map<String, String> annotations = Maps.newHashMap();
             annotations.put("cluster", fqdsn.getCluster());
-            periodicData.getDimensions().entrySet().stream()
-                    .filter(entry -> _whiteListedDimensions.contains(entry.getKey()))
-                    .forEach(entry -> annotations.put(entry.getKey(), entry.getValue()));
+            for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
+                final String k = dimension.getKey();
+                if (!k.equals(CombinedMetricData.CLUSTER_KEY)
+                        && !k.equals(CombinedMetricData.HOST_KEY)
+                        && !k.equals(CombinedMetricData.SERVICE_KEY)) {
+                    annotations.put(dimension.getKey(), dimension.getValue());
+                }
+            }
             reportPointBuilder.setAnnotations(annotations);
 
             // Report the actual data point
@@ -274,11 +280,13 @@ public final class WavefrontSink extends BaseSink {
         }
 
         /**
-         * Set of dimension names to be passed through as a Wavefront annotation/tag.
+         * No longer used. All dimensions are passed to wavefront. Restriction of dimensions should be done elsewhere.
          *
+         * @deprecated All dimensions are passed to Wavefront.
          * @param value Set of white listed dimension names
          * @return This instance of <code>Builder</code>
          */
+        @Deprecated
         public Builder setWhiteListedDimensions(final Set<String> value) {
             _whiteListedDimensions = new ImmutableSet.Builder<String>().addAll(value).build();
             return self();
