@@ -67,14 +67,25 @@ public final class WavefrontSink extends BaseSink {
             // Build the list of annotations based on cluster and white listed dimensions
             final Map<String, String> annotations = Maps.newHashMap();
             annotations.put("cluster", fqdsn.getCluster());
-            for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
-                final String k = dimension.getKey();
-                if (!k.equals(CombinedMetricData.CLUSTER_KEY)
-                        && !k.equals(CombinedMetricData.HOST_KEY)
-                        && !k.equals(CombinedMetricData.SERVICE_KEY)) {
-                    annotations.put(dimension.getKey(), dimension.getValue());
+            if (_whiteListedDimensions.size() == 0) {
+                // Don't use the whitelist, send everything.
+                for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
+                    final String k = dimension.getKey();
+                    if (!k.equals(CombinedMetricData.CLUSTER_KEY)
+                            && !k.equals(CombinedMetricData.HOST_KEY)
+                            && !k.equals(CombinedMetricData.SERVICE_KEY)) {
+                        annotations.put(dimension.getKey(), dimension.getValue());
+                    }
+                }
+            } else {
+                // Respect the whitelist.
+                for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
+                    if (_whiteListedDimensions.contains(dimension.getKey())) {
+                        annotations.put(dimension.getKey(), dimension.getValue());
+                    }
                 }
             }
+
             reportPointBuilder.setAnnotations(annotations);
 
             // Report the actual data point
@@ -280,9 +291,9 @@ public final class WavefrontSink extends BaseSink {
         }
 
         /**
-         * No longer used. All dimensions are passed to wavefront. Restriction of dimensions should be done elsewhere.
+         * Should no longer be used; restriction of dimensions should be done in MAD and/or on entry to cluster-aggregator.
          *
-         * @deprecated All dimensions are passed to Wavefront.
+         * @deprecated Restriction of dimensions should be done in MAD and/or on entry to cluster-aggregator.
          * @param value Set of white listed dimension names
          * @return This instance of <code>Builder</code>
          */
