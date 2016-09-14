@@ -67,20 +67,21 @@ public final class WavefrontSink extends BaseSink {
             // Build the list of annotations based on cluster and white listed dimensions
             final Map<String, String> annotations = Maps.newHashMap();
             annotations.put("cluster", fqdsn.getCluster());
-            if (_whiteListedDimensions.size() == 0) {
+            if (_whiteListedDimensions.isPresent()) {
+                // Respect the whitelist.
+                final ImmutableSet<String> whiteList = _whiteListedDimensions.get();
+                for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
+                    if (whiteList.contains(dimension.getKey())) {
+                        annotations.put(dimension.getKey(), dimension.getValue());
+                    }
+                }
+            } else {
                 // Don't use the whitelist, send everything.
                 for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
                     final String k = dimension.getKey();
                     if (!k.equals(CombinedMetricData.CLUSTER_KEY)
                             && !k.equals(CombinedMetricData.HOST_KEY)
                             && !k.equals(CombinedMetricData.SERVICE_KEY)) {
-                        annotations.put(dimension.getKey(), dimension.getValue());
-                    }
-                }
-            } else {
-                // Respect the whitelist.
-                for (final Map.Entry<String, String> dimension : periodicData.getDimensions().entrySet()) {
-                    if (_whiteListedDimensions.contains(dimension.getKey())) {
                         annotations.put(dimension.getKey(), dimension.getValue());
                     }
                 }
@@ -168,7 +169,7 @@ public final class WavefrontSink extends BaseSink {
         _pushFlushInterval = Optional.ofNullable(builder._pushFlushInterval);
         _pushFlushMaxPoints = Optional.ofNullable(builder._pushFlushMaxPoints);
         _idFile = builder._idFile;
-        _whiteListedDimensions = builder._whiteListedDimensions;
+        _whiteListedDimensions = Optional.ofNullable(builder._whiteListedDimensions);
         _bufferBasename = Optional.ofNullable(builder._bufferBasename);
         final WavefrontAgent agent = AgentFactory.getInstance(_token, buildAgentArgs());
         _pointHandler = agent.createPointHandler();
@@ -183,7 +184,7 @@ public final class WavefrontSink extends BaseSink {
     private final Optional<Integer> _pushFlushMaxPoints;
     private final String _idFile;
     private final PointHandler _pointHandler;
-    private final ImmutableSet<String> _whiteListedDimensions;
+    private final Optional<ImmutableSet<String>> _whiteListedDimensions;
     private final Optional<String> _bufferBasename;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WavefrontSink.class);
@@ -291,13 +292,11 @@ public final class WavefrontSink extends BaseSink {
         }
 
         /**
-         * Should no longer be used; restriction of dimensions should be done in MAD and/or on entry to cluster-aggregator.
+         * Set of dimension names to be passed through as a Wavefront annotation/tag.
          *
-         * @deprecated Restriction of dimensions should be done in MAD and/or on entry to cluster-aggregator.
          * @param value Set of white listed dimension names
          * @return This instance of <code>Builder</code>
          */
-        @Deprecated
         public Builder setWhiteListedDimensions(final Set<String> value) {
             _whiteListedDimensions = new ImmutableSet.Builder<String>().addAll(value).build();
             return self();
@@ -337,8 +336,7 @@ public final class WavefrontSink extends BaseSink {
         @NotNull
         @NotEmpty
         private String _idFile;
-        @NotNull
-        private ImmutableSet<String> _whiteListedDimensions = new ImmutableSet.Builder<String>().build();
+        private ImmutableSet<String> _whiteListedDimensions = null;
         private String _bufferBasename;
     }
 
