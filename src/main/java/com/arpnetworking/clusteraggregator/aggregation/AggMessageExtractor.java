@@ -16,8 +16,16 @@
 package com.arpnetworking.clusteraggregator.aggregation;
 
 import akka.cluster.sharding.ShardRegion;
+import com.arpnetworking.clusteraggregator.models.CombinedMetricData;
 import com.arpnetworking.metrics.aggregation.protocol.Messages;
+import com.arpnetworking.metrics.com.arpnetworking.steno.Logger;
+import com.arpnetworking.metrics.com.arpnetworking.steno.LoggerFactory;
 import com.arpnetworking.tsdcore.model.AggregatedData;
+import com.google.common.collect.Maps;
+
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Handles extracting the sharding information from an aggregation message.
@@ -52,9 +60,51 @@ public class AggMessageExtractor implements ShardRegion.MessageExtractor {
                     .append(metricData.getMetric())
                     .append("||")
                     .append(metricData.getPeriod());
+
+            final TreeMap<String, String> sortedDimensionsMap = dimensionsToMap(metricData);
+            for (final Map.Entry<String, String> dimensionEntry : sortedDimensionsMap.entrySet()) {
+                final String k = dimensionEntry.getKey();
+                if (!(k.equals(CombinedMetricData.CLUSTER_KEY)
+                        || k.equals(CombinedMetricData.HOST_KEY)
+                        || k.equals(CombinedMetricData.SERVICE_KEY))) {
+                    builder
+                            .append("||")
+                            .append(dimensionEntry.getKey())
+                            .append("=")
+                            .append(dimensionEntry.getValue());
+                }
+            }
             return builder.toString();
         }
         throw new IllegalArgumentException("Unknown message type " + message);
+    }
+
+    /**
+     * Sort and de-dupe the dimensions in a consistent manner. Will log an error if any duplicate keys are found and select the
+     * lexicographically-smaller value.
+     *
+     * @param metricData The <code>StatisticSetRecord</code> from which to pull dimensions.
+     * @return A sorted, de-duped TreeMap of the dimensions.
+     */
+    private TreeMap<String, String> dimensionsToMap(final Messages.StatisticSetRecord metricData) {
+        final TreeMap<String, String> sortedDimensionsMap = Maps.newTreeMap(Comparator.<String>naturalOrder());
+
+        for (final Messages.DimensionEntry dimensionEntry : metricData.getDimensionsList()) {
+            sortedDimensionsMap.merge(dimensionEntry.getKey(), dimensionEntry.getValue(), (existing, incoming) -> {
+                LOGGER.error()
+                        .setMessage("Duplicate key found for dimension.")
+                        .addData("statisticSetRecord", metricData)
+                        .addData("dimensionKey", dimensionEntry.getKey())
+                        .addData("firstValue", existing)
+                        .addData("secondValue", incoming)
+                        .log();
+                if (existing.compareTo(incoming) < 0) {
+                    return existing;
+                }
+                return incoming;
+            });
+        }
+        return sortedDimensionsMap;
     }
 
     /**
@@ -77,5 +127,6 @@ public class AggMessageExtractor implements ShardRegion.MessageExtractor {
         return String.format("shard_%d", Math.abs(entityId(message).hashCode() % SHARD_COUNT));
     }
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AggMessageExtractor.class);
     private static final int SHARD_COUNT = 10000;
 }
