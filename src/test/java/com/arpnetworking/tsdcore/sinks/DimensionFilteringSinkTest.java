@@ -87,14 +87,14 @@ public class DimensionFilteringSinkTest {
     }
 
     @Test
-    public void testWhistlist() {
+    public void testWhitelist() {
         final DimensionFilteringSink sink = new DimensionFilteringSink.Builder()
-                .setName("testWhistlist")
+                .setName("testWhitelist")
                 .setSink(_target)
                 .setWhitelistDimensions(ImmutableSet.of("foo", "bar"))
                 .build();
         final PeriodicData dataExcluded = TestBeanFactory.createPeriodicDataBuilder()
-                .setDimensions(ImmutableMap.of("foo", "fooVal", "baz", "bazVal"))
+                .setDimensions(ImmutableMap.of("foo", "fooVal", "abc", "abcVal"))
                 .build();
         sink.recordAggregateData(dataExcluded);
         Mockito.verify(_target, Mockito.never()).recordAggregateData(Mockito.any(PeriodicData.class));
