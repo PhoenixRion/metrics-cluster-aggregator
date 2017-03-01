@@ -193,7 +193,15 @@ public class AggClientConnection extends UntypedActor {
         final CombinedMetricData combinedMetricData = CombinedMetricData.Builder.fromStatisticSetRecord(setRecord).build();
         final ImmutableList.Builder<AggregatedData> builder = ImmutableList.builder();
         final Map<String, String> dimensionsMap = setRecord.getDimensionsMap();
-        final ImmutableMap.Builder<String, String> dimensionBuilder = ImmutableMap.<String, String>builder().putAll(dimensionsMap);
+
+        final Stream<Map.Entry<String, String>> fred = dimensionsMap.entrySet().stream().filter(entry ->
+                !CombinedMetricData.HOST_KEY.equals(entry.getKey())
+                        && !CombinedMetricData.SERVICE_KEY.equals(entry.getKey())
+                        && !CombinedMetricData.CLUSTER_KEY.equals(entry.getKey())
+        );
+
+        final ImmutableMap.Builder<String, String> dimensionBuilder = ImmutableMap.<String, String>builder()
+                .putAll(fred.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 
         Optional<String> host = Optional.ofNullable(dimensionsMap.get(CombinedMetricData.HOST_KEY));
         Optional<String> service = Optional.ofNullable(dimensionsMap.get(CombinedMetricData.SERVICE_KEY));
