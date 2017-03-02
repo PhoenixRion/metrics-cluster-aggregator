@@ -45,6 +45,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An actor that handles the data sent from an agg client.
@@ -194,14 +196,14 @@ public class AggClientConnection extends UntypedActor {
         final ImmutableList.Builder<AggregatedData> builder = ImmutableList.builder();
         final Map<String, String> dimensionsMap = setRecord.getDimensionsMap();
 
-        final Stream<Map.Entry<String, String>> fred = dimensionsMap.entrySet().stream().filter(entry ->
+        final Stream<Map.Entry<String, String>> dimensionStream = dimensionsMap.entrySet().stream().filter(entry ->
                 !CombinedMetricData.HOST_KEY.equals(entry.getKey())
                         && !CombinedMetricData.SERVICE_KEY.equals(entry.getKey())
                         && !CombinedMetricData.CLUSTER_KEY.equals(entry.getKey())
         );
 
         final ImmutableMap.Builder<String, String> dimensionBuilder = ImmutableMap.<String, String>builder()
-                .putAll(fred.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                .putAll(dimensionStream.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 
         Optional<String> host = Optional.ofNullable(dimensionsMap.get(CombinedMetricData.HOST_KEY));
         Optional<String> service = Optional.ofNullable(dimensionsMap.get(CombinedMetricData.SERVICE_KEY));
