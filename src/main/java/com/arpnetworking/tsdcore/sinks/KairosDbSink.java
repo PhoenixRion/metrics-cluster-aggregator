@@ -93,9 +93,9 @@ public final class KairosDbSink extends HttpPostSink {
 
         // Add aggregated data
         for (final AggregatedData datum : periodicData.getData()) {
+            final Statistic statistic = datum.getFQDSN().getStatistic();
             if (_publishHistograms) {
                 // We need to collect the min, max, mean, and sum
-                final Statistic statistic = datum.getFQDSN().getStatistic();
                 if (statistic instanceof MeanStatistic) {
                     histogramAdditionalData.setMean(datum.getValue().getValue());
                 } else if (statistic instanceof SumStatistic) {
@@ -117,7 +117,7 @@ public final class KairosDbSink extends HttpPostSink {
                 continue;
             }
 
-            if (_publishStandardMetrics) {
+            if (_publishStandardMetrics && !(statistic instanceof HistogramStatistic)) {
                 serializer.serializeDatum(completeChunks, currentChunk, chunkStream, datum);
             }
         }
