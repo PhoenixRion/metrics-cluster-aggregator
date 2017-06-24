@@ -496,7 +496,7 @@ public final class KairosDbSink extends HttpPostSink {
          * @param value true to publish standard metrics
          * @return This instance of {@link Builder}.
          */
-        public Builder setStandardMetrics(final Boolean value) {
+        public Builder setPublishStandardMetrics(final Boolean value) {
             _publishStandardMetrics = value;
             return this;
         }
