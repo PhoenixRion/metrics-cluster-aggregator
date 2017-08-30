@@ -18,7 +18,7 @@ package com.arpnetworking.clusteraggregator;
 import akka.actor.Cancellable;
 import akka.actor.Props;
 import akka.actor.Scheduler;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import com.arpnetworking.metrics.MetricsFactory;
 import com.arpnetworking.metrics.jvm.JvmMetricsRunnable;
 import com.arpnetworking.steno.Logger;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Deepika Misra (deepika at groupon dot com)
  */
-public final class JvmMetricsCollector extends UntypedActor {
+public final class JvmMetricsCollector extends UntypedAbstractActor {
 
     /**
      * Creates a <code>Props</code> for construction in Akka.
@@ -49,9 +49,6 @@ public final class JvmMetricsCollector extends UntypedActor {
         return Props.create(JvmMetricsCollector.class, interval, metricsFactory);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void preStart() {
         LOGGER.info()
@@ -67,18 +64,12 @@ public final class JvmMetricsCollector extends UntypedActor {
                 self());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void postStop() {
         LOGGER.info().setMessage("Stopping JVM metrics collection.").log();
         _cancellable.cancel();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         LOGGER.trace().setMessage("Message received")
@@ -145,9 +136,6 @@ public final class JvmMetricsCollector extends UntypedActor {
      */
     /* package private */ static final class CollectJvmMetrics {
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public String toString() {
             return MoreObjects.toStringHelper(this)

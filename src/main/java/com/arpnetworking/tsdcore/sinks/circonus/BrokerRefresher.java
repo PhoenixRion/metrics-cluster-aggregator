@@ -16,7 +16,7 @@
 package com.arpnetworking.tsdcore.sinks.circonus;
 
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.pattern.PatternsCS;
 import com.arpnetworking.akka.UniformRandomTimeScheduler;
 import com.arpnetworking.steno.Logger;
@@ -32,9 +32,9 @@ import java.util.concurrent.TimeUnit;
  * This actor will schedule it's own lookups and send messages about the brokers to its parent.
  * NOTE: Lookup failures will be logged, but not propagated to the parent.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class BrokerRefresher extends UntypedActor {
+public class BrokerRefresher extends UntypedAbstractActor {
     /**
      * Creates a {@link Props} in a type safe way.
      *
@@ -63,18 +63,12 @@ public class BrokerRefresher extends UntypedActor {
                 .build();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void postStop() throws Exception {
         super.postStop();
         _brokerLookup.stop();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof LookupBrokers) {

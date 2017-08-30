@@ -18,7 +18,7 @@ package com.arpnetworking.clusteraggregator;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Terminated;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.cluster.Cluster;
 import akka.cluster.sharding.ShardRegion;
 import com.arpnetworking.steno.Logger;
@@ -29,9 +29,9 @@ import com.google.inject.name.Named;
 /**
  * Shuts down the Akka cluster gracefully.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class GracefulShutdownActor extends UntypedActor {
+public class GracefulShutdownActor extends UntypedAbstractActor {
     /**
      * Public constructor.
      *
@@ -44,9 +44,6 @@ public class GracefulShutdownActor extends UntypedActor {
         _system = context().system();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof Shutdown) {

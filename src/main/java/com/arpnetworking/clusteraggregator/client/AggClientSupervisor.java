@@ -20,7 +20,7 @@ import akka.actor.ActorRef;
 import akka.actor.AllForOneStrategy;
 import akka.actor.SupervisorStrategy;
 import akka.actor.Terminated;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.io.Tcp;
 import akka.io.TcpMessage;
 import com.arpnetworking.clusteraggregator.configuration.ClusterAggregatorConfiguration;
@@ -42,9 +42,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Supervises the connection's actors.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class AggClientSupervisor extends UntypedActor {
+public class AggClientSupervisor extends UntypedAbstractActor {
     /**
      * Public constructor.
      *
@@ -63,9 +63,6 @@ public class AggClientSupervisor extends UntypedActor {
         _maxConnectionTimeout = configuration.getMaxConnectionTimeout();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof AggregatedData || message instanceof PeriodicData) {
@@ -101,9 +98,6 @@ public class AggClientSupervisor extends UntypedActor {
         return FiniteDuration.apply(randomMillis, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public SupervisorStrategy supervisorStrategy() {
         // The important part of AllForOneStrategy is the decider lambda.  The number of retries and the timeframe

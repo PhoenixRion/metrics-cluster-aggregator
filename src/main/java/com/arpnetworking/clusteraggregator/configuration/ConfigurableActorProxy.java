@@ -20,7 +20,7 @@ import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.Terminated;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import com.arpnetworking.steno.Logger;
 import com.arpnetworking.steno.LoggerFactory;
 import com.arpnetworking.utility.ConfiguredLaunchableFactory;
@@ -37,9 +37,9 @@ import java.util.Optional;
  * Serves as a router for configuration-created actors.  Handles reconfiguration messages and swaps references on reconfiguration.
  *
  * @param <T> The type of configuration
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class ConfigurableActorProxy<T> extends UntypedActor {
+public class ConfigurableActorProxy<T> extends UntypedAbstractActor {
     /**
      * Creates a {@link Props}.
      *
@@ -60,9 +60,6 @@ public class ConfigurableActorProxy<T> extends UntypedActor {
         _factory = factory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof ApplyConfiguration) {

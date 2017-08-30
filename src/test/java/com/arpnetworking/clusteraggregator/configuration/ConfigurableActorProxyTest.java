@@ -18,7 +18,7 @@ package com.arpnetworking.clusteraggregator.configuration;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.Terminated;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.testkit.CallingThreadDispatcher;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestProbe;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for the {@link com.arpnetworking.clusteraggregator.configuration.ConfigurableActorProxy} class.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
 public class ConfigurableActorProxyTest extends BaseActorTest {
 
@@ -108,7 +108,7 @@ public class ConfigurableActorProxyTest extends BaseActorTest {
     @Mock
     private ConfiguredLaunchableFactory<Props, Object> _factoryMock;
 
-    private static class NullActor extends UntypedActor {
+    private static class NullActor extends UntypedAbstractActor {
         @Override
         public void onReceive(final Object message) throws Exception {
         }

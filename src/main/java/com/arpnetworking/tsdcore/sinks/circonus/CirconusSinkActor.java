@@ -17,7 +17,7 @@ package com.arpnetworking.tsdcore.sinks.circonus;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.http.javadsl.model.StatusCodes;
 import akka.pattern.PatternsCS;
 import com.arpnetworking.logback.annotations.LogValue;
@@ -73,10 +73,10 @@ import java.util.stream.Collectors;
  *     ServiceCheckBinding - Sent internally after registration of a check bundle.  The binding is stored internally
  *       to keep track of check bundle urls.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
 @SuppressWarnings("deprecation")
-public final class CirconusSinkActor extends UntypedActor {
+public final class CirconusSinkActor extends UntypedAbstractActor {
     /**
      * Creates a {@link akka.actor.Props} for use in Akka.
      *
@@ -156,17 +156,11 @@ public final class CirconusSinkActor extends UntypedActor {
                 .build();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return toLogValue().toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof EmitAggregation) {

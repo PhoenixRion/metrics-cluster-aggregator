@@ -18,7 +18,7 @@ package com.arpnetworking.clusteraggregator;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.cluster.Cluster;
 import akka.cluster.MemberStatus;
 import akka.dispatch.OnComplete;
@@ -52,9 +52,9 @@ import java.util.concurrent.TimeUnit;
  * Internal-only messages:
  *     POLL: Triggers an update of the cluster data.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class Status extends UntypedActor {
+public class Status extends UntypedAbstractActor {
     /**
      * Public constructor.
      *
@@ -94,9 +94,6 @@ public class Status extends UntypedActor {
         return Props.create(Status.class, bookkeeper, cluster, clusterStatusCache, localMetrics);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         final ActorRef sender = getSender();

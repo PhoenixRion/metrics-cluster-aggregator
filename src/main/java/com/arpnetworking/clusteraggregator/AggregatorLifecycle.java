@@ -18,7 +18,7 @@ package com.arpnetworking.clusteraggregator;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import com.arpnetworking.tsdcore.model.AggregatedData;
 import com.google.common.collect.Lists;
 
@@ -28,9 +28,9 @@ import java.util.List;
 /**
  * Lifecycle monitoring for {@link com.arpnetworking.clusteraggregator.aggregation.AggregationRouter} actors.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public final class AggregatorLifecycle extends UntypedActor {
+public final class AggregatorLifecycle extends UntypedAbstractActor {
     /**
      * Creates a {@link Props} for an AggregatorLifecycle.
      *
@@ -39,9 +39,6 @@ public final class AggregatorLifecycle extends UntypedActor {
     public static Props props() {
         return Props.create(AggregatorLifecycle.class);
     }
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         //TODO(barp): handle actor shutdown/timeout messages [MAI-442]

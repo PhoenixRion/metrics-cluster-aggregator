@@ -16,7 +16,7 @@
 package com.arpnetworking.tsdcore.sinks.circonus;
 
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.pattern.PatternsCS;
 import com.arpnetworking.akka.UniformRandomTimeScheduler;
 import com.arpnetworking.steno.Logger;
@@ -44,9 +44,9 @@ import java.util.concurrent.TimeUnit;
  * Circonus API to continually lookup the check bundle and set any metrics to
  * the active state.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class CheckBundleActivator extends UntypedActor {
+public class CheckBundleActivator extends UntypedAbstractActor {
     /**
      * Creates a {@link Props} in a type safe way.
      *
@@ -77,18 +77,12 @@ public class CheckBundleActivator extends UntypedActor {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void postStop() throws Exception {
         super.postStop();
         _refresher.stop();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof NotifyCheckBundle) {

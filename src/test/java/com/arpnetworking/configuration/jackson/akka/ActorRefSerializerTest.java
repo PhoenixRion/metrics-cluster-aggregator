@@ -19,7 +19,7 @@ import akka.actor.Actor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestProbe;
 import com.arpnetworking.commons.jackson.databind.ObjectMapperFactory;
@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for the akka actor reference serializer.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
 public class ActorRefSerializerTest extends BaseActorTest {
 
@@ -74,7 +74,7 @@ public class ActorRefSerializerTest extends BaseActorTest {
 
     private ObjectMapper _mapper;
 
-    private static class DoNothingActor extends UntypedActor {
+    private static class DoNothingActor extends UntypedAbstractActor {
         @Override
         public void onReceive(final Object o) throws Exception {  }
     }

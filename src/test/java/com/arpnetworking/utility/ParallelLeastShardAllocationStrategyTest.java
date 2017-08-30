@@ -18,7 +18,7 @@ package com.arpnetworking.utility;
 import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestProbe;
 import com.google.common.collect.Lists;
@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for the ParallelLeastShardAllocationStrategy class.
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
 public class ParallelLeastShardAllocationStrategyTest extends BaseActorTest {
 
@@ -316,7 +316,7 @@ public class ParallelLeastShardAllocationStrategyTest extends BaseActorTest {
 
     private int _shardId = 1;
 
-    private static class DoNothingActor extends UntypedActor {
+    private static class DoNothingActor extends UntypedAbstractActor {
         @Override
         public void onReceive(final Object message) throws Exception {
         }

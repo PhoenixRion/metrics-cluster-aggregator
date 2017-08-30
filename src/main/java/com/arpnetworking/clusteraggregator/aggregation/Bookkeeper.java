@@ -18,7 +18,7 @@ package com.arpnetworking.clusteraggregator.aggregation;
 
 import akka.actor.Cancellable;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import akka.actor.UntypedAbstractActor;
 import akka.dispatch.OnComplete;
 import com.arpnetworking.clusteraggregator.AggregatorLifecycle;
 import com.arpnetworking.clusteraggregator.bookkeeper.persistence.BookkeeperPersistence;
@@ -41,9 +41,9 @@ import java.util.concurrent.TimeUnit;
  * Internal-only messages:
  *     "UPDATE": Triggers an update of the cached data from the persistence object
  *
- * @author Brandon Arp (brandonarp at gmail dot com)
+ * @author Brandon Arp (brandon dot arp at inscopemetrics dot com)
  */
-public class Bookkeeper extends UntypedActor {
+public class Bookkeeper extends UntypedAbstractActor {
     /**
      * Creates a <code>Props</code> for building a Bookkeeper actor in Akka.
      *
@@ -74,9 +74,6 @@ public class Bookkeeper extends UntypedActor {
                 getSelf());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void postStop() throws Exception {
         if (_updateTimer != null) {
@@ -84,9 +81,6 @@ public class Bookkeeper extends UntypedActor {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onReceive(final Object message) throws Exception {
         if (message instanceof MetricsRequest) {
