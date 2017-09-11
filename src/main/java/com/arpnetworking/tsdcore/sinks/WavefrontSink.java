@@ -30,7 +30,7 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
-import sunnylabs.report.ReportPoint;
+import wavefront.report.ReportPoint;
 
 import java.io.IOException;
 import java.net.URI;
@@ -355,12 +355,16 @@ public final class WavefrontSink extends BaseSink {
     }
 
     private static final class WavefrontAgent extends PushAgent {
+        private final String _handle = "";
+
         @Override
         protected void startListeners() {
+            // Prevent restart caused by empty listener list because CAgg currently bypasses the listeners.
+            activeListeners.inc();
         }
 
         PointHandler createPointHandler() {
-            return new PointHandlerImpl(-1, pushValidationLevel, pushFlushMaxPoints, getFlushTasks(-1));
+            return new PointHandlerImpl(_handle, pushValidationLevel, pushFlushMaxPoints.get(), getFlushTasks(_handle));
         }
     }
 }
